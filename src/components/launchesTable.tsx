@@ -12,11 +12,11 @@ export const LaunchesTable = () => {
   const filteredLaunches = launches?.filter((launch) =>
     launch.name.toLowerCase().includes(search.toLowerCase())
   );
-  const ExternalLinks = ({ links }) => {
+  const ExternalLinks = ({ links }:any) => {
     if (!links) return null;
 
     return (
-      <Group gap="xs">
+      <Group>
         {links.youtube_id && (
           <Tooltip label="Watch Launch">
             <ActionIcon
@@ -59,7 +59,7 @@ export const LaunchesTable = () => {
       </Group>
     );
   };
-  const LaunchStatusBadge = ({ success }) => {
+  const LaunchStatusBadge = ({ success }:{success:boolean}) => {
     if (success === null)
       return (
         <Badge color="gray" variant="light">
