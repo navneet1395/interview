@@ -76,11 +76,12 @@
   color: #c5221f;
 }
 /* Table Header Styles */
+
 .table-header {
   position: sticky;
   top: 77px;
   background-color: #f8f9fa;
-  z-index: 2;
+  z-index: 10;
   border-bottom: 2px solid #eaeaea;
 }
 @media screen and (max-width: 500px) {
@@ -142,12 +143,16 @@
   z-index: 2;
   padding: 20px;
   display: flex;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
   background-color: #ffffff;
   border-bottom: 1px solid #eaeaea;
 }
-
+@media screen and (max-width: 500px) {
+  .table-wrapper {
+    overflow-x: clip;
+  }
+}
 .filter-group {
   display: flex;
   align-items: center;
@@ -155,6 +160,7 @@
 }
 
 .filter-input {
+  width: 100%;
   padding: 8px 12px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
