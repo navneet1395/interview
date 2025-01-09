@@ -99,9 +99,16 @@ export const LaunchesTable = () => {
             setSortOrder={setSortOrder}
           />
           <tbody>
-            {paginatedLaunches?.map((launch) => (
-              <LaunchRow key={launch.id} launch={launch} />
-            ))}
+            {paginatedLaunches?.length === 0 ? (
+              <td colSpan={5} style={{ textAlign: "center",padding:"1rem" }}>
+                {" "}
+                No Launch matches the filter criteria
+              </td>
+            ) : (
+              paginatedLaunches?.map((launch) => (
+                <LaunchRow key={launch.id} launch={launch} />
+              ))
+            )}
           </tbody>
         </table>
       </div>
