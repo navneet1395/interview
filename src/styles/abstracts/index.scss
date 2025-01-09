@@ -83,6 +83,11 @@
   z-index: 2;
   border-bottom: 2px solid #eaeaea;
 }
+@media screen and (max-width: 500px) {
+  .table-header {
+    top: 127px;
+  }
+}
 
 .header-cell {
   padding: 16px;
@@ -131,6 +136,7 @@
 }
 /* Filters Styles */
 .filters-container {
+  flex-wrap: wrap;
   position: sticky;
   top: 0;
   z-index: 2;
@@ -200,9 +206,19 @@
 }
 
 /* Pagination Styles */
-.pagination-container {
+.pagination-main-container {
   position: sticky;
   bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #ffffff;
+  border-top: 1px solid #eaeaea;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pagination-container {
   display: flex;
   align-items: center;
   justify-content: center;

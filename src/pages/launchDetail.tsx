@@ -61,6 +61,7 @@ const LaunchDetail = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              flexWrap: "wrap",
             }}
           >
             <div className="card-header">
@@ -158,8 +159,9 @@ const LaunchDetail = () => {
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "space-around",
                 alignItems: "center",
+                flexWrap: "wrap",
               }}
             >
               {launch.links.patch.large && (

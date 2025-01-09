@@ -14,7 +14,7 @@ export const Pagination = ({
   // Calculate the range of pages to show
   const getPageRange = () => {
     const range = [];
-    const maxVisiblePages = 5;
+    const maxVisiblePages = 3;
     let start = Math.max(1, currentPage - 2);
     let end = Math.min(totalPages, start + maxVisiblePages - 1);
 
@@ -48,40 +48,42 @@ export const Pagination = ({
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
-    <div className="pagination-container">
-      <button
-        className="pagination-button"
-        onClick={() => setCurrentPage(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        Previous
-      </button>
+    <div className="pagination-main-container">
+      <div className="pagination-container">
+        <button
+          className="pagination-button"
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
 
-      {pageRange.map((page, index) =>
-        page === "..." ? (
-          <span key={`ellipsis-${index}`} className="pagination-ellipsis">
-            ...
-          </span>
-        ) : (
-          <button
-            key={`page-${page}`}
-            onClick={() => setCurrentPage(Number(page))}
-            className={`pagination-button ${
-              currentPage === page ? "active" : ""
-            }`}
-          >
-            {page}
-          </button>
-        )
-      )}
+        {pageRange.map((page, index) =>
+          page === "..." ? (
+            <span key={`ellipsis-${index}`} className="pagination-ellipsis">
+              ...
+            </span>
+          ) : (
+            <button
+              key={`page-${page}`}
+              onClick={() => setCurrentPage(Number(page))}
+              className={`pagination-button ${
+                currentPage === page ? "active" : ""
+              }`}
+            >
+              {page}
+            </button>
+          )
+        )}
 
-      <button
-        className="pagination-button"
-        onClick={() => setCurrentPage(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        Next
-      </button>
+        <button
+          className="pagination-button"
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
 
       <span className="pagination-info">
         Showing {startItem}-{endItem} of {totalItems} items
