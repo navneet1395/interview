@@ -1,134 +1,119 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useLaunches } from "../services/api";
-import { ActionIcon, Badge, Group, Input, Table, Tooltip } from "@mantine/core";
-import { Link2, Newspaper, Youtube } from "lucide-react";
+import { Filters } from "./Filters";
+import { TableHeaders } from "./TableHeaders";
+import { LaunchRow } from "./LaunchRow";
+import { Pagination } from "./Pagination";
+
 export const LaunchesTable = () => {
   const { data: launches, isLoading } = useLaunches();
   const [search, setSearch] = useState("");
+  const [yearFilter, setYearFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [sortKey, setSortKey] = useState<"name" | "date" | "status">("name");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
-  if (isLoading) return <div>Loading...</div>;
-
-  const filteredLaunches = launches?.filter((launch) =>
-    launch.name.toLowerCase().includes(search.toLowerCase())
-  );
-  const ExternalLinks = ({ links }:any) => {
-    if (!links) return null;
-
+  if (isLoading) {
     return (
-      <Group>
-        {links.youtube_id && (
-          <Tooltip label="Watch Launch">
-            <ActionIcon
-              component="a"
-              href={`https://www.youtube.com/watch?v=${links.youtube_id}`}
-              target="_blank"
-              variant="subtle"
-              color="red"
-            >
-              <Youtube size={16} />
-            </ActionIcon>
-          </Tooltip>
-        )}
-        {links.article && (
-          <Tooltip label="Read Article">
-            <ActionIcon
-              component="a"
-              href={links.article}
-              target="_blank"
-              variant="subtle"
-              color="blue"
-            >
-              <Newspaper size={16} />
-            </ActionIcon>
-          </Tooltip>
-        )}
-        {links.wikipedia && (
-          <Tooltip label="Wikipedia">
-            <ActionIcon
-              component="a"
-              href={links.wikipedia}
-              target="_blank"
-              variant="subtle"
-              color="gray"
-            >
-              <Link2 size={16} />
-            </ActionIcon>
-          </Tooltip>
-        )}
-      </Group>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          fontSize: "16px",
+          color: "#666",
+        }}
+      >
+        Loading...
+      </div>
     );
-  };
-  const LaunchStatusBadge = ({ success }:{success:boolean}) => {
-    if (success === null)
-      return (
-        <Badge color="gray" variant="light">
-          Upcoming
-        </Badge>
-      );
+  }
 
-    return success ? (
-      <Badge color="green" variant="light">
-        Success
-      </Badge>
-    ) : (
-      <Badge color="red" variant="light">
-        Failed
-      </Badge>
-    );
-  };
+  const filteredLaunches = launches
+    ?.filter((launch) => {
+      const matchesSearch = launch.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const launchYear = new Date(launch.date_utc).getFullYear().toString();
+      const matchesYear = yearFilter ? launchYear === yearFilter : true;
+
+      let matchesStatus = true;
+      if (statusFilter) {
+        if (statusFilter === "upcoming") {
+          matchesStatus = launch.success === null;
+        } else if (statusFilter === "success") {
+          matchesStatus = launch.success === true;
+        } else if (statusFilter === "failed") {
+          matchesStatus = launch.success === false;
+        }
+      }
+
+      return matchesSearch && matchesYear && matchesStatus;
+    })
+    .sort((a, b) => {
+      const compareA = sortKey === "date" ? new Date(a.date_utc) : a[sortKey];
+      const compareB = sortKey === "date" ? new Date(b.date_utc) : b[sortKey];
+      return sortOrder === "asc"
+        ? compareA > compareB
+          ? 1
+          : compareA < compareB
+          ? -1
+          : 0
+        : compareA < compareB
+        ? 1
+        : compareA > compareB
+        ? -1
+        : 0;
+    });
+
+  const totalItems = filteredLaunches.length;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedLaunches = filteredLaunches.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, yearFilter, statusFilter]);
 
   return (
-    <div className="space-y-4">
-      <Input
-        placeholder="Search launches..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="max-w-sm"
+    <div className="launches-table-container">
+      <Filters
+        search={search}
+        setSearch={setSearch}
+        yearFilter={yearFilter}
+        setYearFilter={setYearFilter}
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
       />
-      <div className="rounded-md border">
-        <Table>
-          <thead>
-            <tr>
-              <th>Mission</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Details</th>
-              <th>Links</th>
-            </tr>
-          </thead>
+
+      <div className="table-wrapper">
+        <table className="launches-table">
+          <TableHeaders
+            sortKey={sortKey}
+            sortOrder={sortOrder}
+            setSortKey={setSortKey}
+            setSortOrder={setSortOrder}
+          />
           <tbody>
-            {filteredLaunches?.map((launch) => (
-              <tr
-                key={launch.id}
-                style={{
-                  backgroundColor: ` ${launch.success ? "#dbfbe3" : "#ffd8e0"}`,
-                }}
-                className={`${launch.success ? "bg-green-100" : "bg-red-100"}`}
-              >
-                <td>
-                  <Link
-                    to={`/launches/${launch.id}`}
-                    className="text-none hover:underline"
-                  >
-                    {launch.name}
-                  </Link>
-                </td>
-                <td>{new Date(launch.date_utc).toLocaleDateString()}</td>
-                <td>
-                  <LaunchStatusBadge success={launch.success} />
-                </td>
-                <td className="max-w-md truncate">
-                  {launch.details || "No details available"}
-                </td>
-                <td>
-                  <ExternalLinks links={launch.links} />
-                </td>
-              </tr>
+            {paginatedLaunches.map((launch) => (
+              <LaunchRow key={launch.id} launch={launch} />
             ))}
           </tbody>
-        </Table>
+        </table>
       </div>
+
+      <Pagination
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };
