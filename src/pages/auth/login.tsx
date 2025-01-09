@@ -1,4 +1,4 @@
-import { LoginForm } from "../../components/loginForm";
+import { LoginForm } from "../../components/Login/loginForm";
 import "./Login.css"; // Importing custom CSS
 
 const Login = () => {

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useLaunches } from "../services/api";
 import { Filters } from "./Filters";
 import { TableHeaders } from "./TableHeaders";
 import { LaunchRow } from "./LaunchRow";
 import { Pagination } from "./Pagination";
+import { useLaunches } from "../../services/api";
 
 export const LaunchesTable = () => {
   const { data: launches, isLoading } = useLaunches();

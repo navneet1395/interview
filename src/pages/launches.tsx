@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 import { useAuthStore } from "../store/auth.store";
-import { LaunchesTable } from "../components/launchesTable";
+import { LaunchesTable } from "../components/Launch Table/launchesTable";
 
 const Launches = () => {
   const logout = useAuthStore((state) => state.logout);

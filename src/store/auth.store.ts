@@ -16,8 +16,8 @@ export const useAuthStore = create<AuthState>()(
       login: async (email: string, password: string) => {
         // Demo credentials
         const demoCredentials = {
-          email: "demo@example.com",
-          password: "demo123", // You can change this to any password for testing
+          email: "ben@scriptassist.co.uk",
+          password: "ben@scriptassist", // You can change this to any password for testing
         };
 
         // Check if the entered email and password match the demo credentials

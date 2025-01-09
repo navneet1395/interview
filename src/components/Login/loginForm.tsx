@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../store/auth.store";
 import { Button, Input, Text } from "@mantine/core";
 import "./LoginForm.css"; // Import the custom CSS file
+import { useAuthStore } from "../../store/auth.store";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
