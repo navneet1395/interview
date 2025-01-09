@@ -11,6 +11,15 @@ import {
 import { Button } from "@mantine/core";
 
 const LaunchDetail = () => {
+  const getStatusBadge = (success: boolean | null) => {
+    if (success === null) return <span className="badge">Upcoming</span>;
+    return success ? (
+      <span className="badge badge-success">Success</span>
+    ) : (
+      <span className="badge badge-failure">Failed</span>
+    );
+  };
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { data: launch, isLoading } = useLaunch(id!);
 
@@ -34,15 +43,6 @@ const LaunchDetail = () => {
     );
   }
 
-  const getStatusBadge = (success: boolean | null) => {
-    if (success === null) return <span className="badge">Upcoming</span>;
-    return success ? (
-      <span className="badge badge-success">Success</span>
-    ) : (
-      <span className="badge badge-failure">Failed</span>
-    );
-  };
-  const navigate = useNavigate();
   return (
     <div className="launch-detail-container">
       <div style={{ padding: "1rem" }}>

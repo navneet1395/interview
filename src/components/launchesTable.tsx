@@ -15,23 +15,9 @@ export const LaunchesTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          fontSize: "16px",
-          color: "#666",
-        }}
-      >
-        Loading...
-      </div>
-    );
-  }
-
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, yearFilter, statusFilter]);
   const filteredLaunches = launches
     ?.filter((launch) => {
       const matchesSearch = launch.name
@@ -70,16 +56,28 @@ export const LaunchesTable = () => {
         : 0;
     });
 
-  const totalItems = filteredLaunches.length;
+  const totalItems = filteredLaunches?.length || 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedLaunches = filteredLaunches.slice(
+  const paginatedLaunches = filteredLaunches?.slice(
     startIndex,
     startIndex + itemsPerPage
   );
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search, yearFilter, statusFilter]);
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          fontSize: "16px",
+          color: "#666",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="launches-table-container">
@@ -101,7 +99,7 @@ export const LaunchesTable = () => {
             setSortOrder={setSortOrder}
           />
           <tbody>
-            {paginatedLaunches.map((launch) => (
+            {paginatedLaunches?.map((launch) => (
               <LaunchRow key={launch.id} launch={launch} />
             ))}
           </tbody>
