@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAuthStore } from "./store/auth.store";
-import Login from "./pages/login";
+import Login from "./pages/auth/login";
 import Launches from "./pages/launches";
 import LaunchDetail from "./pages/launchDetail";
 import "./App.scss";
@@ -15,6 +15,15 @@ const queryClient = new QueryClient();
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+};
+
+const RedirectIfAuthenticated = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  return isAuthenticated ? <Navigate to="/launches" /> : <>{children}</>;
 };
 
 const App = () => {
@@ -35,7 +44,14 @@ const App = () => {
                 )
               }
             />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={
+                <RedirectIfAuthenticated>
+                  <Login />
+                </RedirectIfAuthenticated>
+              }
+            />
             <Route
               path="/launches"
               element={

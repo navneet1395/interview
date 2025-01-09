@@ -1,0 +1,54 @@
+
+
+.login-page {
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #95d4e3
+    url("data:image/png;base64,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");
+}
+
+/* Container for the login card */
+.login-container {
+  position: relative;
+  max-width: 400px;
+  width: 100%;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Title and subtitle styling */
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.sub-title {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 5px;
+}
+
+/* Noise effect */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Noise pattern overlay (you can find noise texture images and encode them in base64) */

@@ -46,14 +46,3 @@ export const useLaunch = (id: string) => {
     },
   });
 };
-
-export const useRocket = (rocketId: string) => {
-  return useQuery({
-    queryKey: ["rocket", rocketId],
-    queryFn: async () => {
-      const response = await fetch(`${BASE_URL}/rockets/${rocketId}`);
-      const data = await response.json();
-      return data as Rocket;
-    },
-  });
-};

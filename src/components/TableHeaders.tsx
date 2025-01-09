@@ -42,12 +42,7 @@ export const TableHeaders = ({
         >
           Date
         </th>
-        <th
-          className={getHeaderClassName("status")}
-          onClick={() => handleSort("status")}
-        >
-          Status
-        </th>
+        <th className={getHeaderClassName("status")}>Status</th>
         <th className={getHeaderClassName("details")}>Details</th>
         <th className={getHeaderClassName("links")}>Links</th>
       </tr>

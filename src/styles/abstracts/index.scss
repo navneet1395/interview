@@ -1,5 +1,6 @@
 @forward "./colours";
 @forward "./fonts";
+
 /* Launch Row Styles */
 .launch-row {
   background-color: #ffffff;
@@ -36,10 +37,11 @@
 .launch-details {
   max-width: 300px;
   color: #666666;
-  line-height: 1.6;
+  // line-height: 1.6;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  // min-height: 30px;
+  // -webkit-line-clamp: 2;
+  // -webkit-box-orient: ;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -254,8 +256,6 @@
   margin: 0 16px;
 }
 
-
-
 // launch details
 
 .launch-detail-container {
@@ -369,15 +369,19 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .info-item {
   margin: 20px 0;
 }
-
-
 
 .image-gallery {
   display: grid;

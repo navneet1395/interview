@@ -14,8 +14,17 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       user: null,
       login: async (email: string, password: string) => {
-        // Simple validation for demo purposes
-        if (email && password.length >= 6) {
+        // Demo credentials
+        const demoCredentials = {
+          email: "demo@example.com",
+          password: "demo123", // You can change this to any password for testing
+        };
+
+        // Check if the entered email and password match the demo credentials
+        if (
+          email === demoCredentials.email &&
+          password === demoCredentials.password
+        ) {
           set({ isAuthenticated: true, user: { email } });
         } else {
           throw new Error("Invalid credentials");
